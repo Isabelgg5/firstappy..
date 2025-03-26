@@ -1,0 +1,18 @@
+package co.edu.umanizales.firstappy.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+
+public class Seller {
+    private String identification;
+    private String name;
+    private String lastname;
+    private char gender;
+    private byte age;
+    private Location city;
+}
