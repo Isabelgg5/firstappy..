@@ -1,61 +1,58 @@
 package co.edu.umanizales.firstappy.controller;
 
-import co.edu.umanizales.firstappy.model.Location;
+
 import co.edu.umanizales.firstappy.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Arrays;
+import co.edu.umanizales.firstappy.model.Location;
+import co.edu.umanizales.firstappy.model.State;
 import java.util.List;
 
-
 @RestController
-@RequestMapping(path = "/location")
+@RequestMapping("/locations")
 public class LocationController {
-    /*
-        @GetMapping
-        public Location getLocation(){
-            Location location = new Location("1","Manizales");
 
-            return location;
-        }
 
-        // Método GET para devolver una lista de Location
-        @GetMapping
-        public List<Location> getLocations() {
-            // Aquí estamos creando una lista de ejemplo. Podrías obtener estos datos de una base de datos.
-            return Arrays.asList(
-                    new Location("001", "Location 1"),
-                    new Location("002", "Location 2"),
-                    new Location("003", "Location 3")
-            );
-        }
-
-     */
     @Autowired
     private LocationService locationService;
 
     @GetMapping
-    public List<Location> getLocations() {
-
+    public List<Location> getAllLocations() {
         return locationService.getLocations();
-
     }
 
-    @GetMapping(path = "/{code}")
-    public Location getLocationByCode(@PathVariable String code){
+
+    @GetMapping(path = "/by_code/{code}")
+    public Location getLocationByCode(@PathVariable String code) {
         return locationService.getLocationByCode(code);
     }
 
-    @GetMapping(path = "/states")
-    public List<Location> getLocationsByStates(){
-        return locationService.getStates();
+    @GetMapping(path = "/by_name/{name}")
+    public Location getLocationByName(@PathVariable String name) {
+        return locationService.getLocationByName(name);
     }
 
+    @GetMapping(path="/by_initial_letter/{letter}")
+    public List<Location> getLocationByInitialLetter(@PathVariable Character letter) {
+        return locationService.getLocationByInitialLetter(letter);
+    }
+
+    @GetMapping(path="/by_state_code/{code}")
+    public List<Location> getLocationByInitialLetter(@PathVariable String code) {
+        return locationService.getLocationsByStateCode(code);
+    }
+
+    @GetMapping(path="/by_states/{states}")
+    public List<State> getStateByStates(@PathVariable String states) {
+        return locationService.getByStates();
+    }
+
+    @GetMapping(path="/by_states_code/{code}")
+    public State getStateByCode(@PathVariable String code) {
+        return locationService.getStateByCode(code);
+    }
 }

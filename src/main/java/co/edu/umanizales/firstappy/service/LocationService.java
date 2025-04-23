@@ -1,6 +1,7 @@
 package co.edu.umanizales.firstappy.service;
 
 import co.edu.umanizales.firstappy.model.Location;
+import co.edu.umanizales.firstappy.model.State;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import jakarta.annotation.PostConstruct;
@@ -21,7 +22,9 @@ import java.util.List;
 @Getter
 public class LocationService {
 
+    @Getter
     private List<Location> locations;
+    private List<State> states;
 
     @Value( "${locations_filename}" )
     private String locationsFilename;
@@ -29,9 +32,7 @@ public class LocationService {
     @PostConstruct
     public void readLocationsFromCSV() throws IOException, URISyntaxException {
         locations = new ArrayList<>();
-        locations.add(new Location("05","ANTIOQUIA"));
-        locations.add(new Location("17","CALDAS"));
-        locations.add(new Location("66","RISARALDA"));
+        states = new ArrayList<>();
 
         Path pathFile = Paths.get(ClassLoader.getSystemResource(locationsFilename).toURI());
 
@@ -43,6 +44,16 @@ public class LocationService {
 
                 // Crear un nuevo objeto Location y agregarlo a la lista
                 locations.add(new Location(line[2],line[3]));
+                boolean exists = false;
+                for (State state : states) {
+                    if (state.getCode().equals(line[0])) {
+                        exists = true;
+                        break;
+                    }
+                }
+                if(exists == false){
+                    states.add(new State(line[0],line[1]));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,14 +72,52 @@ public class LocationService {
         return null;
     }
 
-    public List<Location> getStates() {
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public Location getLocationByName(String name) {
+        for (Location location : locations) {
+            if((location.getDescription().toLowerCase()).equals(name.toLowerCase())){
+                return location;
+            }
+        }
+        return null;
+    }
+
+    public List<Location> getLocationByInitialLetter(Character letter) {
+        List<Location> initialLetters = new ArrayList<>();
+        for (Location location : locations) {
+            System.out.println(location.getDescription().charAt(0));
+            if(location.getDescription().charAt(0) == letter){
+                initialLetters.add(location);
+            }
+        }
+        return initialLetters;
+    }
+
+    public List<Location> getLocationsByStateCode(String stateCode) {
         List<Location> states = new ArrayList<>();
         for (Location location : locations) {
-            if(location.getCode().length() ==2){
+            if(location.getCode_state().equals(stateCode)){
                 states.add(location);
             }
         }
         return states;
     }
+
+    public List<State> getByStates() {
+        return states;
+    }
+
+    public State getStateByCode(String code) {
+        for (State state : states) {
+            if (state.getCode().equals(code)) {
+                return state;
+            }
+        }
+        return null;
+    }
+
 
 }

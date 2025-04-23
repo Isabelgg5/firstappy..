@@ -1,20 +1,14 @@
 package co.edu.umanizales.firstappy.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
-public class Location {
+
+public class State {
     private String code;
     private String description;
-    private String code_state;
-    private String state_name;
-
-    public Location(String number, String manizales) {
-    }
 }
