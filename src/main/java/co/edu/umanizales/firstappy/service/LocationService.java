@@ -39,6 +39,42 @@ public class LocationService {
         try (CSVReader csvReader = new CSVReader(new FileReader(pathFile.toString()))) {
             String[] line;
             csvReader.skip(1);
+
+            //32 departamentos
+            locations.add(new Location("17","CALDAS"));
+            locations.add(new Location("05","ANTIOQUIA"));
+            locations.add(new Location("66","RISARALDA"));
+            locations.add(new Location("91","AMAZONAS"));
+            locations.add(new Location("81","ARAUCA"));
+            locations.add(new Location("13","ATLANTICO"));
+            locations.add(new Location("11","BOLIVAR"));
+            locations.add(new Location("15","BOYACA"));
+            locations.add(new Location("18","CAQUETA"));
+            locations.add(new Location("66","CASANARE"));
+            locations.add(new Location("19","CAUCA"));
+            locations.add(new Location("20","CESAR"));
+            locations.add(new Location("11","CUNDINAMARCA"));
+            locations.add(new Location("68","CHOCO"));
+            locations.add(new Location("27","CORDOBA"));
+            locations.add(new Location("94","GUAINIA"));
+            locations.add(new Location("95","GUAVIARE"));
+            locations.add(new Location("41","HUILA"));
+            locations.add(new Location("50","LA GUAJIRA"));
+            locations.add(new Location("14","MAGDALENA"));
+            locations.add(new Location("52","META"));
+            locations.add(new Location("73","NARIÑO"));
+            locations.add(new Location("54","NORTE DE SANTANDER"));
+            locations.add(new Location("82","PUTUMAYO"));
+            locations.add(new Location("63","QUINDIO"));
+            locations.add(new Location("88","SAN ANDRES Y PROVIDENCIA"));
+            locations.add(new Location("60","SANTANDER"));
+            locations.add(new Location("74","TOLIMA"));
+            locations.add(new Location("76","VALLE DEL CAUCA"));
+            locations.add(new Location("84","SUCRE"));
+            locations.add(new Location("97","VAUPES"));
+            locations.add(new Location("99","VICHADA"));
+
+
             // Leer todas las filas del CSV
             while ((line = csvReader.readNext()) != null) {
 
@@ -99,7 +135,7 @@ public class LocationService {
     public List<Location> getLocationsByStateCode(String stateCode) {
         List<Location> states = new ArrayList<>();
         for (Location location : locations) {
-            if(location.getCode_state().equals(stateCode)){
+            if(location.getCode().equals(stateCode)){
                 states.add(location);
             }
         }
@@ -119,5 +155,16 @@ public class LocationService {
         return null;
     }
 
+    public List<Location> getStates() {
+        List<Location> states = new ArrayList<>();
+        for (Location location : locations) {
+            if(location.getCode().length() ==2){
+                states.add(location);
+                states.add(getLocationByCode(location.getCode()+"001"));
+
+            }
+        }
+        return states;
+    }
 
 }

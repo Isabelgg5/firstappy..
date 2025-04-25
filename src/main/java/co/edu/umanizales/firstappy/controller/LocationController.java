@@ -55,4 +55,9 @@ public class LocationController {
     public State getStateByCode(@PathVariable String code) {
         return locationService.getStateByCode(code);
     }
+
+    @GetMapping(path = "/states")
+    public List<Location> getLocationsByStates(){
+        return locationService.getStates();
+    }
 }
